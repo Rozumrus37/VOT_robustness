@@ -68,7 +68,6 @@ if __name__ == "__main__":
 
         base_path = os.path.join('/home.stud/rozumrus/VOT/DAMTMask/VOT2022/STS/sequences', seq)
         params = [[0, 0, 0], [10, 1, 18], [9, 1, 20], [8, 1, 23], [80, 12, 23], [2, 1, 70]]
-        #[10, 1, 18], [9, 1, 20], [8, 1, 23], [80, 12, 23], 
 
         for param in params:
             if param == [0, 0, 0]:
@@ -113,14 +112,8 @@ if __name__ == "__main__":
                 cmds.append(cp_color_to_setup)
                 execute_commands(cmds)
                 cmds = []
-
-                #print(seq, param, 99)
-                #compute_iou = 'python3 ' + os.path.join('/datagrid/personal/rozumrus/vot2022/sts/workspace', 'compute_iou.py') + ' ' + "99" + ' ' + str(param[0]) + ' ' + str(param[1]) + ' ' + str(param[2]) + ' ' + seq
                 iou = get_iou("99",  str(param[0]), str(param[1]), str(param[2]), seq)
                 write_to_file(os.path.join(baseline_res_path, "99" + '_' + str(param[0]) + '_' + str(param[1]) + '_' + str(param[2]) + '_' + seq + '.txt'), str(iou))
-
-                #cmds.append(compute_iou)
-                #execute_commands(cmds)
                 continue
 
 
@@ -128,9 +121,6 @@ if __name__ == "__main__":
             for fr_setup in range(0, 3):
                 cmds = []
 
-                # # Wait for the Python program to finish
-
-                # # Replace the following commands with the actual commands you want to execute
                 if os.path.exists(os.path.join(base_path, 'color')):
                     rm_color = 'rm -r ' + os.path.join(base_path, 'color')
                     cmds.append(rm_color)
@@ -218,11 +208,6 @@ if __name__ == "__main__":
                 execute_commands(cmds)
                 cmds = []
 
-                # print(seq, param, fr_setup)
-                # compute_iou = 'python3 ' + os.path.join('/datagrid/personal/rozumrus/vot2022/sts/workspace', 'compute_iou.py') + ' ' + str(fr_setup) + ' ' + str(param[0]) + ' ' + str(param[1]) + ' ' + str(param[2]) + ' ' + seq
-                
-                # cmds.append(compute_iou)
-                # execute_commands(cmds)
                 iou = get_iou(str(fr_setup),  str(param[0]), str(param[1]), str(param[2]), seq)
                 write_to_file(os.path.join(baseline_res_path, str(fr_setup) + '_' + str(param[0]) + '_' + str(param[1]) + '_' + str(param[2]) + '_' + seq + '.txt'), str(iou))
 
