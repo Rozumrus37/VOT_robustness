@@ -18,29 +18,18 @@ def apply_mask_to_image(image, binary_mask, offset):
         x, y = index 
         x += offset[1]
         y += offset[0]
-        # print(image.width, image.height)
         if 0 < y <= image.width and 0 < x <= image.height:
-            # print(image.getpixel((y-1, x-1)))
-            image.putpixel((y-1, x-1), (255, 192, 203))#(0, 0, 0))  # Set pixel to black
-            # print(image.getpixel((y-1, x-1)))
-            # break
-
+            image.putpixel((y-1, x-1), (255, 192, 203))
 
 
 def composite_images(img1, img2):
     width = img1.width() + img2.width()
     height = max(img1.height(), img2.height())
 
-    # Create a new blank image
+
     composite_img = Image.new("RGB", (width, height), "white")
-
-    # Paste the first image on the left side
     composite_img.paste(img1, (0, 0, img1.width(), img1.height()))
-
-    # Paste the second image on the right side
     composite_img.paste(img2, (img1.width(), 0, img1.width() + img2.width(), img2.height()))
-
-    # Convert the composite image to PhotoImage
     tk_img = ImageTk.PhotoImage(composite_img)
 
     return tk_img
@@ -63,10 +52,6 @@ for filename in os.listdir(path):
         imgs.append(filename)
 imgs.sort()
 
-
-
-# file_path = os.path.join("results/MS_AOT/baseline", "setup_" + setup_num, sq_len + "_" + thick + "_" + pix_cov + "/" + "book_00000000.txt")   
-# file_path_gt = os.path.join("results/MS_AOT/baseline", "setup_" + setup_num, sq_len + "_" + thick + "_" + pix_cov + "_gt.txt")  
 file_path = os.path.join("results/DAMTMask/baseline", "setup_" + seq_name + "_" + setup_num, sq_len + "_" + thick + "_" + pix_cov + "/" + seq_name + "_00000000.txt")   
 file_path_gt = os.path.join("results/DAMTMask/baseline", "setup_" + seq_name + "_" + setup_num, sq_len + "_" + thick + "_" + pix_cov + "_gt.txt")  
 
@@ -94,7 +79,6 @@ for i in range(len(strings_pred)):
     binary_mask = np.array(io.parse_region(s)._mask)
     offset = io.parse_region(s)._offset
     apply_mask_to_image(img1, binary_mask, offset)
-    # img1 = ImageTk.PhotoImage(img)
 
     filename = imgs[i]
     s = strings_gt[i]
@@ -102,7 +86,6 @@ for i in range(len(strings_pred)):
     binary_mask = np.array(io.parse_region(s)._mask)
     offset = io.parse_region(s)._offset
     apply_mask_to_image(img2, binary_mask, offset)
-    # img2 = ImageTk.PhotoImage(img2)
 
     images = [img1, img2]
     widths, heights = zip(*(i.size for i in images))
@@ -128,13 +111,10 @@ for i in range(len(strings_pred)):
 
 List_img = imgs_pred
 
-#creating label to display images 
 j = 0
 img_label = Label(frame, image=List_img[j])
 img_label.pack()
 
-
-#function for next image
 def next_img():
    global j
    j = j + 1
@@ -145,7 +125,6 @@ def next_img():
        next_img()
 
 
-#function for prev image
 def prev():
    global j
    j = j - 1
@@ -156,7 +135,6 @@ def prev():
        prev()
 
 
-#creating frame for previous, next, and exit button
 frame1 = tk.Frame(root)
 frame1.pack(pady=5)
 Prev = tk.Button(frame1, text="Previous", command=prev)
